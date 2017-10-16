@@ -1,6 +1,10 @@
 from appJar import gui
 import math
 import random
+import music21
+import numpy
+import scipy
+
 lower = 'a9'
 upper = 'c9'
 note = ''
@@ -24,6 +28,17 @@ def mainPress(button):
         app.showSubWindow("Lower Bound")
     if button == "Transpose":
         print(getKey())
+        score = music21.converter.parse("Lucky.mid")
+        key = score.analyze('key')
+        #key = score[0]
+        print(key.tonic)
+        interval = music21.interval.Interval(key.tonic,music21.pitch.Pitch(getKey()["note"]))
+        print (interval)
+        newScore = score.transpose(interval)
+        print(newScore.analyze('key'))
+        #stream = music21.stream.Stream()
+        #stream.append(score)
+        #stream.show()
         
 def lowPress(button):
     global lower, upper, note, noteNum, octaveNum
