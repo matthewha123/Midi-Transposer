@@ -27,15 +27,26 @@ def mainPress(button):
         app.hide()
         app.showSubWindow("Lower Bound")
     if button == "Transpose":
-        print(getKey())
-        score = music21.converter.parse("Lucky.mid")
+        print(str(getKey()))
+        score = music21.converter.parse("APie.mid")
         key = score.analyze('key')
         #key = score[0]
         print(key.tonic)
         interval = music21.interval.Interval(key.tonic,music21.pitch.Pitch(getKey()["note"]))
         print (interval)
         newScore = score.transpose(interval)
-        print(newScore.analyze('key'))
+        for i in newScore.recurse().getElementsByClass('Instrument'):
+            if i.midiProgram is None:
+                i.midiProgram = 0  
+        print(str(newScore.analyze('key'))+" Steps 1 of 2 complete")
+        #newScore.write('midi',"newfilename.mid")
+        newScore.write("midi", "APieTranspose.mid")
+        mf = music21.midi.translate.streamToMidiFile(newScore)
+        print(len(mf.tracks))
+##        stream = music21.stream.Stream()
+##        stream.append(score)
+##        player = music21.midi.realtime.StreamPlayer(stream)
+##        player.play
         #stream = music21.stream.Stream()
         #stream.append(score)
         #stream.show()

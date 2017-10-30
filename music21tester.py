@@ -1,7 +1,6 @@
-import music21
-score = music21.converter.parse("Lucky.mid")
-stream = music21.stream.Stream()
-stream.append(score)
-print(score.parts)
-
-print(score.analyze('key'))
+from music21 import *
+score = converter.parse("APie.mid")
+key = score.analyze('key')
+print(key)
+f = note.Note("F5")
+print(f.name)
